@@ -27,7 +27,6 @@ class ArticlesController < ApplicationController
     else
       render json: @article.errors, status: :unprocessable_entity
     end
-
   end
 
   def destroy
