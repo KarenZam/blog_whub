@@ -1,3 +1,0 @@
-object @article
-
-attributes :errors

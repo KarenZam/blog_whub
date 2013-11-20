@@ -1,10 +1,11 @@
 class ArticlesController < ApplicationController
   before_action :get_article, except: [ :index, :create]
 
-  def index
-    articles = Article.includes( :comments ).all
 
-    render json: articles.to_json( include: [:comments] )
+  def index
+    @articles = Article.includes( :comments, :tags ).all
+
+    # render json: @articles.to_json( include: [:comments, :tags] )
   end
 
   def create
@@ -16,9 +17,7 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    @article = Article.includes( :comments ).find_by(id: params[:id])
-    
-    render json: @article.to_json(include:[:comments])
+    render json: @article.to_json( include:[:comments, :tags] )
   end
 
   def update
@@ -37,7 +36,7 @@ class ArticlesController < ApplicationController
   private
 
   def get_article
-    head :not_found unless @article = Article.includes( :comments ).find_by_id( params[:id] ) 
+    head :not_found unless @article = Article.includes( :comments, :tags ).find_by_id( params[:id] ) 
   end
 
   def article_params

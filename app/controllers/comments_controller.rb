@@ -18,8 +18,6 @@ class CommentsController < ActionController::Base
   end
 
   def show
-    @comment = Comment.find_by(id: params[:id])
-    
     render json: @comment.to_json
   end
 

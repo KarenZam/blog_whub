@@ -127,15 +127,15 @@ comments = Comment.create([
 
 tags = Tag.create([
   {
-    field: "startup",
+    badge: "startup",
     articles: [articles[0], articles[1], articles[2], articles[3]]
   },
   {
-    field: "recruitment",
+    badge: "recruitment",
     articles: [articles[0], articles[1], articles[2]]
   },
   {
-    field: "website",
+    badge: "website",
     articles: [articles[0], articles[3]]
   }
 ])

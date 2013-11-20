@@ -14,10 +14,14 @@ BlogWhub::Application.routes.draw do
   scope :api do
     resources :articles, defaults: { format: :json }, except: [:new, :edit] do
       resources :comments, defaults: { format: :json }, except: [:new, :edit]
+      resources :tags, defaults: { format: :json }, only: [ :index ]
     end
+    resources :tags, except: [ :new, :edit], defaults: { format: :json}
   end
 
-  resources :users, except: [ :new, :edit ], default: { format: :json }
+  resources :users, except: [ :new, :edit ], defaults: { format: :json }
+
+  
 
   # Password reset (coded links)
   get   'reset/:code' => 'password#edit',  as: :reset          # Password reset form
