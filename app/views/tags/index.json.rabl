@@ -2,7 +2,7 @@ object false
 
 child @tags, object_root: false do
 
-  attributes :id, :field
+  attributes :id, :badge
 
   node :href do |tag|
     tag_url(tag) 
@@ -11,6 +11,7 @@ child @tags, object_root: false do
   child :articles do
     attributes :title
     attributes :body
+    attributes :id
   end
 
   node :linked do

@@ -3,29 +3,59 @@
   <ul>
     {{#each users}}
       <li class="users" data-id="{{id}}">{{name}}</li>
-      <li class="users" data-id="{{id}}">{{email}}</li>
     {{/each}}
   </ul>
 </script>
 
 <script id="user-template" type="text/x-handlebars-template">
-  <p class="user-name">{{name}}</p>
+  <p>{{name}}</p>
+  <p>{{email}}</p>
+  <p><a id="back-to-users" href="#">Back to Users</a></p>
 </script>
-
 
 <script id="articles-template" type="text/x-handlebars-template">
   <h1>Articles</h1>
   <ul>
     {{#each articles}}
-      <li> 
-        <h2>{{title}}</h2>
-        <p data-id="{{id}}">{{body}}</p>
-        <p data-id="{{id}}">By {{author}}</p>
+      <li class="articles" data-id="{{id}}"> 
+        <h2 >{{title}}</h2>
+        <p>{{body}}</p>
+        <p>By {{author}}</p>
       </li>
     {{/each}}
   </ul>
 </script>
 
-<section id="content-users"></section>
+<script id="article-template" type="text/x-handlebars-template">
+  <h1>{{title}}</h1>
+  <ul>
+    {{#each tags}}
+      <li>
+        <p>{{tag.badge}}</p>
+      </li>
+    {{/each}}
+  </ul>
+  <p>{{body}}</p>
+  <p>By {{author}}</p>
+  <p><a id="back-to-articles" href="#">Back to all articles</a></p>
+</script>
+
+<script id="tags-template" type="text/x-handlebars-template">`
+  <h1>Tags</h1>
+  <ul>
+    {{#each tags}}
+      <li>
+        <h2 class="tags" data-id="{{id}}">{{badge}}</h2>
+        <ul>
+        {{#each articles}}
+          <li class="articles" data-id="{{article.id}}"><p>{{article.title}}</p></li>
+        {{/each}}
+        </ul>
+    {{/each}}
+  </ul>
+</script>
+
+<section id="content"></section>
 <section id="content-articles"></section>
+<section id="content-tags"></section>
 

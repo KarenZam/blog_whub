@@ -10,7 +10,6 @@
 //= require ./vendor/layouts/topRight
 //= require ./vendor/layouts/bottom
 //= require ./vendor/layouts/bottomRight
-//= require templates
 //= require index
 
 
