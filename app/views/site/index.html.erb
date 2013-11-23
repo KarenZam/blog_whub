@@ -1,0 +1,31 @@
+<script id="users-template" type="text/x-handlebars-template">
+  <h1>Users</h1>
+  <ul>
+    {{#each users}}
+      <li class="users" data-id="{{id}}">{{name}}</li>
+      <li class="users" data-id="{{id}}">{{email}}</li>
+    {{/each}}
+  </ul>
+</script>
+
+<script id="user-template" type="text/x-handlebars-template">
+  <p class="user-name">{{name}}</p>
+</script>
+
+
+<script id="articles-template" type="text/x-handlebars-template">
+  <h1>Articles</h1>
+  <ul>
+    {{#each articles}}
+      <li> 
+        <h2>{{title}}</h2>
+        <p data-id="{{id}}">{{body}}</p>
+        <p data-id="{{id}}">By {{author}}</p>
+      </li>
+    {{/each}}
+  </ul>
+</script>
+
+<section id="content-users"></section>
+<section id="content-articles"></section>
+

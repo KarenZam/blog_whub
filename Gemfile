@@ -24,6 +24,7 @@ gem 'jquery-rails'
 gem 'bcrypt-ruby', require: 'bcrypt'
 gem 'puma'
 gem 'rabl'
+gem 'oj'
 gem "slim"
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder

@@ -1,16 +1,9 @@
 class TagsController < ApplicationController
   before_action :get_tag, except: [ :index, :create]
+  respond_to :json
 
   def index
-    if :article_id
-      article = Article.find_by_id( params[:article_id] ) 
-      tags = article.tags
-      render json: tags.to_json
-    else
-      @tags = Tag.includes( :articles ).all
-      render json: @tags.to_json(include:[:articles])
-    end
-    
+    @tags = params[:id] ? Tag.includes( :articles).where('id in (?)', params[:id].split(",")) : Tag.includes( :articles).all
   end
 
   def create
@@ -19,10 +12,6 @@ class TagsController < ApplicationController
     else
       head :unprocessable_entity
     end
-  end
-
-  def show
-    render json: @tag.to_json(include:[:articles])
   end
 
   def update

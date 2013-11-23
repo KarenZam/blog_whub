@@ -12,11 +12,23 @@ BlogWhub::Application.routes.draw do
   get 'logout' => 'session#destroy'                 # delete for production just testing
 
   scope :api do
-    resources :articles, defaults: { format: :json }, except: [:new, :edit] do
-      resources :comments, defaults: { format: :json }, except: [:new, :edit]
-      resources :tags, defaults: { format: :json }, only: [ :index ]
+    resources :articles, except: [:new, :edit, :show], defaults: { format: :json } do
+      get ':id' => 'articles#index', on: :collection
+      resources :comments, except: [:new, :edit, :show], 
+        defaults: { format: :json } do
+          get ':id' => 'comments#index', on: :collection
+        end
+      resources :tags, only: [ :index ], defaults: { format: :json }
     end
-    resources :tags, except: [ :new, :edit], defaults: { format: :json}
+    resources :tags, except: [ :new, :edit, :show], 
+      defaults: { format: :json} do
+      get ':id' => 'tags#index', on: :collection
+    end
+    resources :users, except: [:show, :new, :edit], 
+      defaults: { format: :json } do
+        get ':id' => 'users#index', on: :collection
+        resources :articles, only: [ :index ]
+     end
   end
 
   resources :users, except: [ :new, :edit ], defaults: { format: :json }

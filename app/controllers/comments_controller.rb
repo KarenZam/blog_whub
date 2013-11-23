@@ -2,10 +2,10 @@ class CommentsController < ActionController::Base
   before_action :get_comment, except: [ :index, :create]
   before_action :get_article
 
+  respond_to :json
+  
   def index
-    comments = @article.comments
-
-    render json: comments.to_json
+    @comments = params[:id] ? @article.comments.where('id in (?)', params[:id].split(",")) : @article.comments
   end
 
   def create
@@ -15,10 +15,6 @@ class CommentsController < ActionController::Base
       head :unprocessable_entity
     end
 
-  end
-
-  def show
-    render json: @comment.to_json
   end
 
   def update
