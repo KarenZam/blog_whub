@@ -1,12 +1,3 @@
-<!-- USER SELECTION -->
-<script id="users-template" type="text/x-handlebars-template">
-  <h1>Users</h1>
-  <ul>
-    {{#each users}}
-      <li class="users" data-user-id="{{id}}">{{name}}</li>
-    {{/each}}
-  </ul>
-</script>
 
 <script id="user-template" type="text/x-handlebars-template">
   <p>{{name}}</p>
@@ -56,27 +47,64 @@
 </script>
 
 <!-- TAGS SELECTION -->
-<script id="tags-template" type="text/x-handlebars-template">`
-  <h1>Tags</h1>
+<script id="tags-template" type="text/x-handlebars-template">
   <ul>
+    <li><h1>Tags :</h1></li>
     {{#each tags}}
-      <h2 class="tags" data-tag-id="{{id}}">{{badge}}</h2>
+      <li><h2 class="tags" data-tag-id="{{id}}">{{badge}}</h2></li>
     {{/each}}
+    <p>select one tag for more details</p>
   </ul>
 </script>
 
-<script id="tag-template" type="text/x-handlebars-template">`
+<script id="tag-template" type="text/x-handlebars-template">
   <h1>Selected tag</h1>
   <h2>{{badge}}</h2>
   <p>{{id}}</p>
   <p><a id="back-to-tags" href="#">Back to all tags</a></p>
 </script>
 
-<section id="content-users"></section>
-<section id="content-tags"></section>
-<section id="content-articles"></section>
+<!-- <section id="content-users"></section> -->
 
-<button id="create-article">Create article</button>
+<!-- PAGE  -->
+<div id="blog-container">
+  <div id="tags" class="row col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-lg-10 col-md-10 col-sm-10">
+    <section id="content-tags"></section>
+  </div>
+  <section id="content-articles"></section>
+  <!-- <button id="create-article">Create article</button> -->
+
+  <button id="create-article" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#createArticleModal">
+    Create an article
+  </button>
+
+<!-- Modal -->
+<div class="modal fade" id="createArticleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Create an article</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+          <input id="title" type="text" class="form-control" placeholder="Title">
+          <br>
+          <input id="tag" type="text" class="form-control" placeholder="tag">
+          <br>
+          <textarea id="body" rows="5" class="form-control" placeholder="Body"></textarea>
+          <br>
+          <input id="author" type="text" class="form-control" placeholder="Author">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="submit-article" class="btn btn-primary" data-dismiss="modal">Create the article</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</div>
 
 
 

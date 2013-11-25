@@ -2,7 +2,8 @@
 //= require jquery_ujs
 //= require ./vendor/bootstrap
 //= require ./vendor/handlebars
-//= require ./vendor/handlebars.runtime
+// had to remove handlebars.runtime
+//= require ./handlebarsPrecompile/users.template
 //= require ./vendor/moment
 //= require ./vendor/numeral
 //= require ./vendor/jquery.noty

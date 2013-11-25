@@ -1,25 +1,17 @@
-.navbar-fixed-top {
-  background-color: whitesmoked;
-  .header-box {
-    padding: 10px;
-    text-align: center;
-    font-size: 140%;
-    a {
-      color: #2D7DDC;
-      -webkit-transition: all 1s ease-out;
-      -moz-transition: all 1s ease-out;
-      transition: all 1s ease-out;
-      &:hover {
-        color: black;
-        background-color: #2D7DDC;
-        text-decoration: none;
-        -webkit-transition: all 0.5s ease-in-out;
-        -moz-transition: all 0.5s ease-in-out;
-        transition: all 0.5s ease-in-out;
-      }
-    }
-  }
+ #wrap, *:before, *:after {
+  background-color: rgb(255,255,255);
 }
 
-
-
+#tags {
+  h1 {
+    font-size: 140%;
+  }
+  h2 {
+    font-size: 120%;
+  }
+  ul li {
+    margin-right: 20px;
+    display: inline-block;
+    list-style-type: none;
+  }
+}

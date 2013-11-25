@@ -1,20 +1,17 @@
-<header class="navbar-fixed-top">
-  <nav>
-    <div class="row header-box">
-      <a href="#">
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-        W Hub
-        </div>
-      </a>
-      <a href="#">
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-        W HUB BLOG
-        </div>
-      </a>
-      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-        <a href="#" class="switch-light">Light</a>
+<!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">W Hub</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Light</a></li>
+            <li class="active"><a href="#">Blog</a></li>
+            <li><%= link_to "Sign in", login_url, method: :post%></li>
+          </ul>
+        </div><!--/.nav-collapse -->
       </div>
     </div>
-  </nav>
-</header>
-

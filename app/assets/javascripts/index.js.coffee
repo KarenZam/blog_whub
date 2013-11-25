@@ -9,15 +9,10 @@ $ ->
       type: 'GET',
       dataType: 'json',
       success: (data) ->
-        #Get the template from the script element
-        source = $('#users-template').html()
-        
         #Compile the template to a JS function
-        template = Handlebars.compile(source)
-        
+        template = Handlebars.templates.users
         #Call the template function and pass in the data to return the html
         output = template(data)
-
         #Insert that html into the template
         $('#content-users').html(output)
 
@@ -87,6 +82,7 @@ $ ->
   #FROM USERS - DISPLAY A USER 
   $('section').on 'click', 'ul .users', (e) ->
     id = $(@).data('user-id')
+    console.log "HI"
     showUser(id)
 
   #FROM USER - BACK TO USERS
@@ -118,13 +114,20 @@ $ ->
     showTags()
 
   #CREATE AN ARTICLE
-  $('#create-article').on 'click',  ->
+  $('#submit-article').on 'click',  ->
+    title = $('input#title').val()
+    console.log title
+    body = $('textarea#body').val()
+    console.log body
+    author = $('input#author').val()
+    console.log author
     $.ajax "/api/articles",
       type: 'POST',
       contentType: 'application/json',
-      data: JSON.stringify({article: {title: "test title", body: "body test", author: "author test", is_published: false, tags_attributes: [{ badge: "badge test"}]}}),
+      data: JSON.stringify({article: {title: title, body: body, author: author, is_published: false, tags_attributes: [{ badge: "badge test"}]}}),
       success: (x) ->
         console.log x
+    showArticles()
 
   #DELETE AN ARTICLE
   # $('#delete-article').on 'click',  ->
@@ -135,7 +138,7 @@ $ ->
 
   #UPDATE AN ARTICLE
   $('#update-article').on 'click',  ->
-    title = $('#updateform input #title').text
+    title = $('input #title').val
     $.ajax "/api/articles/#{id}",
       type: 'PATCH',
       contentType: 'application/json',
