@@ -2,17 +2,17 @@ object false
 
 child @articles, object_root: false do
 
-  attributes :id, :title, :author, :is_published, :body
+  attributes :id, :title, :author, :is_published, :body, :created_at
 
   node :href do |article|
     article_url(article) 
   end
 
-  child :tags do
+  child :tags, object_root: false do
     attributes :badge
   end
 
-  child :comments do
+  child :comments, object_root: false do
     attributes :body
     child :user do
       attributes :name

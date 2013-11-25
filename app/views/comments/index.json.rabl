@@ -8,7 +8,7 @@ child @comments, object_root: false do
     article_comment_url(:article_id, comment) 
   end
 
-  child :user do
+  child :user , object_root: false do
     attributes :name
     attributes :id
   end

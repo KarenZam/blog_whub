@@ -19,7 +19,7 @@ $ ->
         output = template(data)
 
         #Insert that html into the template
-        $('#content').html(output)
+        $('#content-users').html(output)
 
   #DISPLAY A USER 
   showUser = (id) ->
@@ -30,7 +30,7 @@ $ ->
         source = $('#user-template').html()
         template = Handlebars.compile(source)
         output = template(data.users[0])
-        $('#content').html(output)
+        $('#content-users').html(output)
 
   #DISPLAY ALL ARTICLES
   showArticles = () ->
@@ -66,13 +66,14 @@ $ ->
         output = template(data)
         $('#content-tags').html(output)
 
-  #DISPLAY A TAGS
+  #DISPLAY A TAG
   showTag = (id) ->
-    $.ajax '/api/tag/#{id}',
+    console.log(id)
+    $.ajax "/api/tags/#{id}",
       type: 'GET',
       dataType: 'json',
       success: (data) ->
-        source = $('#tags-template').html()
+        source = $('#tag-template').html()
         template = Handlebars.compile(source)
         output = template(data.tags[0])
         $('#content-tags').html(output)
@@ -85,7 +86,7 @@ $ ->
 
   #FROM USERS - DISPLAY A USER 
   $('section').on 'click', 'ul .users', (e) ->
-    id = $(@).data('id')
+    id = $(@).data('user-id')
     showUser(id)
 
   #FROM USER - BACK TO USERS
@@ -95,12 +96,57 @@ $ ->
 
   #FROM ARTICLES - DISPLAY AN ARTICLE 
   $('section').on 'click', 'ul .articles', (e) ->
-    console.log "clicked on #{$(@).data('id')}"
-    id = $(@).data('id')
+    console.log "clicked on #{$(@).data('article-id')}"
+    console.log "display an article"
+    id = $(@).data('article-id')
     showArticle(id)
     
 
   #FROM ARTICLE - BACK TO ARTICLES
   $('section').on 'click', '#back-to-articles', (e) ->
     showArticles()
+
+  #FROM TAGS - DISPLAY A TAG / ARTICLES 
+  $('section').on 'click', 'ul .tags', (e) ->
+    console.log "display a tag"
+    id = $(@).data('tag-id')
+    console.log id
+    showTag(id)
+
+  #FROM TAG - BACK TO TAGS
+  $('section').on 'click', '#back-to-tags', (e) ->
+    showTags()
+
+  #CREATE AN ARTICLE
+  $('#create-article').on 'click',  ->
+    $.ajax "/api/articles",
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({article: {title: "test title", body: "body test", author: "author test", is_published: false, tags_attributes: [{ badge: "badge test"}]}}),
+      success: (x) ->
+        console.log x
+
+  #DELETE AN ARTICLE
+  # $('#delete-article').on 'click',  ->
+  #   $.ajax "/api/articles/#{id}",
+  #     type: 'DELETE',
+  #     success: (data) ->
+  #       console.log data
+
+  #UPDATE AN ARTICLE
+  $('#update-article').on 'click',  ->
+    title = $('#updateform input #title').text
+    $.ajax "/api/articles/#{id}",
+      type: 'PATCH',
+      contentType: 'application/json',
+      data: JSON.stringify({article: {title: title, body: "body test", author: "author test", is_published: false, tags_attributes: [{ badge: "badge test"}]}}),
+      success: (x) ->
+        console.log x
+
+      
+
+      
+        
+
+
 

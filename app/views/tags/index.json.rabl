@@ -8,7 +8,7 @@ child @tags, object_root: false do
     tag_url(tag) 
   end
 
-  child :articles do
+  child :articles , object_root: false do
     attributes :title
     attributes :body
     attributes :id

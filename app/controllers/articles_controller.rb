@@ -22,10 +22,15 @@ class ArticlesController < ApplicationController
   end
 
   def update
-    if @article.update(article_params)
-      head :no_content
+    article = Article.where('id=?', params[:id]).take
+    if article
+      if article.update(article_params)
+        head :reset_content
+      else
+        head :unprocessable_entity
+      end
     else
-      render json: @article.errors, status: :unprocessable_entity
+      head :not_found
     end
   end
 
@@ -42,7 +47,7 @@ class ArticlesController < ApplicationController
 
   def article_params
     params.require(:article).permit(
-      :title, :body, :is_published, :author
+      :title, :body, :is_published, :author, tags_attributes: [:badge]
     )
 
   end

@@ -9,7 +9,8 @@ class UsersController < ApplicationController
   end
   
   def create
-    if user = User.create(user_params)
+
+    if user.save
       head :created, location: user_url(user)
     else
       head :unprocessable_entity
@@ -17,16 +18,32 @@ class UsersController < ApplicationController
   end
   
   def update
-    if @user.update(user_params)
-      head :no_content
+    user = User.where('id = ?', params[:id]).take
+    
+    if user
+      if user.update(user_params)
+        head :reser_content
+      else
+        head :unprocessable_entity
+      end
     else
-      render json: @user.errors, status: :unprocessable_entity
+      head :not_found
     end
   end
   
   def destroy
-    @user.destroy
-    head :no_content
+    user = User.where('id = ?', params[:id]).take
+
+    if user 
+      if user.destroy
+        head :no_content
+      else
+        head :unprocessable_entity
+      end
+    else
+      head :not_found
+    end
+
   end
 
   private
@@ -36,7 +53,11 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:name, :email, :is_admin)
+    params.require(:user).permit(
+      :name, 
+      :email, 
+      :is_admin
+    )
   end
 
 end
