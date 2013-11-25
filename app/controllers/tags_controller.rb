@@ -1,5 +1,5 @@
 class TagsController < ApplicationController
-  before_action :get_tag, except: [ :index, :create]
+  before_action :get_tag, only: [ :update, :destroy ]
   respond_to :json
 
   def index
@@ -16,21 +16,29 @@ class TagsController < ApplicationController
 
   def update
     if @tag.update(tag_params)
-      head :no_content
+      head :reser_content
     else
-      render json: @tag.errors, status: :unprocessable_entity
+      head :unprocessable_entity
     end
   end
 
   def destroy
-    @tag.destroy
-    head :no_content
+    tag = Tag.where('id = ?', params[:id]).take
+    if tag 
+      if tag.destroy
+        head :no_content
+      else
+        head :unprocessable_entity
+      end
+    else
+      head :not_found
+    end
   end
 
   private
 
   def get_tag
-    head :not_found unless @tag = Tag.includes( :articles ).find_by_id( params[:id] ) 
+    head :not_found unless @tag = Tag.where('id = ?', params[:id]).take
   end
 
   def tag_params

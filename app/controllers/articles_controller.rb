@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-  before_action :get_article, except: [ :index, :create]
+  before_action :get_article, only: [ :update, :destroy ]
 
   respond_to :json
 
@@ -22,10 +22,18 @@ class ArticlesController < ApplicationController
   end
 
   def update
-    article = Article.where('id=?', params[:id]).take
-    if article
-      if article.update(article_params)
-        head :reset_content
+    if @article.update(article_params)
+      head :reser_content
+    else
+      head :unprocessable_entity
+    end
+  end
+
+  def destroy
+    article = Article.where('id = ?', params[:id]).take
+    if article 
+      if article.destroy
+        head :no_content
       else
         head :unprocessable_entity
       end
@@ -34,23 +42,16 @@ class ArticlesController < ApplicationController
     end
   end
 
-  def destroy
-    @article.destroy
-    head :no_content
-  end
-
   private
 
   def get_article
-    head :not_found unless @article = Article.includes( :comments, :tags ).find_by_id( params[:id] ) 
+    head :not_found unless @article = Article.where('id = ?', params[:id]).take
   end
 
   def article_params
     params.require(:article).permit(
       :title, :body, :is_published, :author, tags_attributes: [:badge]
     )
-
   end
-
 end
 

@@ -1,17 +1,14 @@
 class UsersController < ApplicationController
-  before_action :get_user, except: [ :index, :create]
+  before_action :get_user, only: [ :update, :destroy ]
   respond_to :json
   
   def index
-
     @users = params[:id] ? User.includes( :comments ).where('id in (?)', params[:id].split(",")) : User.includes( :comments ).all
-    
   end
   
   def create
-
-    if user.save
-      head :created, location: user_url(user)
+    if user = User.create(user_params)
+      head :created, location: user_url(tag)
     else
       head :unprocessable_entity
     end
@@ -33,7 +30,6 @@ class UsersController < ApplicationController
   
   def destroy
     user = User.where('id = ?', params[:id]).take
-
     if user 
       if user.destroy
         head :no_content
@@ -43,13 +39,12 @@ class UsersController < ApplicationController
     else
       head :not_found
     end
-
   end
 
   private
 
   def get_user
-    head :not_found unless @user = User.includes( :comments ).find_by_id( params[:id] ) 
+    head :not_found unless @user = User.where('id = ?', params[:id]).take
   end
 
   def user_params

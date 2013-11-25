@@ -50,6 +50,17 @@ $ ->
         output = template(data.articles[0])
         $('#content-articles').html(output)
 
+  #FROM TAGS - DISPLAY ARTICLES BY SELECTED TAG
+  ShowTagArticles = (id) ->
+    $.ajax "/api/tags/#{id}",
+      type: 'GET',
+      dataType: 'json',
+      success: (data) ->
+        source = $('#tag-articles-template').html()
+        template = Handlebars.compile(source)
+        output = template(data.tags[0])
+        $('#content-articles').html(output)
+
   #DISPLAY ALL TAGS
   showTags = () ->
     $.ajax '/api/tags',
@@ -91,7 +102,7 @@ $ ->
 
 
   #FROM ARTICLES - DISPLAY AN ARTICLE 
-  $('section').on 'click', 'ul .articles', (e) ->
+  $('section').on 'click', '.articles', (e) ->
     console.log "clicked on #{$(@).data('article-id')}"
     console.log "display an article"
     id = $(@).data('article-id')
@@ -108,10 +119,12 @@ $ ->
     id = $(@).data('tag-id')
     console.log id
     showTag(id)
+    ShowTagArticles(id)
 
   #FROM TAG - BACK TO TAGS
   $('section').on 'click', '#back-to-tags', (e) ->
     showTags()
+    showArticles()
 
   #CREATE AN ARTICLE
   $('#submit-article').on 'click',  ->
@@ -130,11 +143,24 @@ $ ->
     showArticles()
 
   #DELETE AN ARTICLE
-  # $('#delete-article').on 'click',  ->
-  #   $.ajax "/api/articles/#{id}",
-  #     type: 'DELETE',
-  #     success: (data) ->
-  #       console.log data
+
+  $('#content-articles').on 'click', '.article-form-opener', (e) ->
+    id = $(@).parent().data('article-id')
+    $('#deleteArticleModal').modal('show')
+    console.log "Setting ID to #{id}"
+    $('#delete-article').attr('data-delete-article-id', id)
+
+
+  $('#delete-article').on 'click',  ->
+    id = $(@).data('delete-article-id')
+    console.log "hello"
+    console.log "#{id}"
+    console.log id
+    $.ajax "/api/articles/#{id}",
+      type: 'DELETE',
+      success: (data) ->
+        console.log data
+    showArticles()
 
   #UPDATE AN ARTICLE
   $('#update-article').on 'click',  ->
@@ -146,6 +172,12 @@ $ ->
       success: (x) ->
         console.log x
 
+        #------------------------------------------------------------------------#
+
+  #ON CLICK LIGHT
+  $('#light').on 'click',  ->
+    console.log "light"
+    $(@).toggleClass light dark, (currentclass), true
       
 
       

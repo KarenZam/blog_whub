@@ -1,5 +1,16 @@
- #wrap, *:before, *:after {
+.container {
+  -webkit-transition: all 2s ease-out;
+  -moz-transition: all 2s ease-out;
+  transition: all 2s ease-out;
+}
+
+.light {
   background-color: rgb(255,255,255);
+  color: #252E35;
+} 
+.dark {
+  background-color: #252E35;
+  color: rgb(255,255,255); 
 }
 
 #tags {

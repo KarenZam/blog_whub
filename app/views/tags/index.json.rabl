@@ -12,6 +12,9 @@ child @tags, object_root: false do
     attributes :title
     attributes :body
     attributes :id
+    child :tags, object_root: false do
+      attributes :badge, :id
+    end
   end
 
   node :linked do

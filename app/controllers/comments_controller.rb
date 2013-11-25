@@ -1,5 +1,5 @@
 class CommentsController < ActionController::Base
-  before_action :get_comment, except: [ :index, :create]
+  before_action :get_comment, only: [ :update, :destroy ]
   before_action :get_article
 
   respond_to :json
@@ -14,14 +14,13 @@ class CommentsController < ActionController::Base
     else
       head :unprocessable_entity
     end
-
   end
 
   def update
     if @comment.update(comment_params)
-      head :no_content
+      head :reser_content
     else
-      render json: @comment.errors, status: :unprocessable_entity
+      head :unprocessable_entity
     end
   end
 
@@ -39,11 +38,11 @@ class CommentsController < ActionController::Base
   end
 
   def get_comment
-    head :not_found unless @comment = Comment.find_by_id( params[:id] ) 
+    head :not_found unless @comment = Comment.where('id = ?', params[:id]).take
   end
 
   def get_article
-    head :not_found unless @article = Article.includes( :comments ).find_by_id( params[:article_id] ) 
+    head :not_found unless @article = Article.where('id = ?', params[:article_id]).take 
   end
   
 end

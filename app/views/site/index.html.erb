@@ -7,16 +7,19 @@
 
 
 <!-- ARTICLES SELECTION -->
+
 <script id="articles-template" type="text/x-handlebars-template">
   <h1>Articles</h1>
   <ul>
     {{#each articles}}
-      <li class="articles" data-article-id="{{id}}"> 
+      <li>
         <h2>{{title}}</h2>
         <h3>Tags :</h3>
-        {{#each tags}}
-          <p>{{badge}}</p>
-        {{/each}}
+        <ul>
+          {{#each tags}}
+            <li><p class="tags" data-tag-id="{{id}}">{{badge}}</p></li>
+          {{/each}}
+        </ul>
         <p>{{body}}</p>
         <p>By {{author}}</p>
         <p>{{created_at}}</p>
@@ -27,7 +30,9 @@
           <p>{{user.name}}</p>
           {{/each}}
         </ul>
+        <button id="form-delete-article-{{id}}" class="btn btn-danger btn-sm article-form-opener"> - </button>
       </li>
+      <button class="btn btn-default btn-sm articles" data-article-id="{{id}}"> + </button>
     {{/each}}
   </ul>
 </script>
@@ -37,7 +42,7 @@
   <ul>
     {{#each tags}}
       <li>
-        <p>{{badge}}</p>
+        <p class="tags" data-tag-id="{{id}}">{{badge}}</p>
       </li>
     {{/each}}
   </ul>
@@ -46,7 +51,9 @@
   <p><a id="back-to-articles" href="#">Back to all articles</a></p>
 </script>
 
+
 <!-- TAGS SELECTION -->
+
 <script id="tags-template" type="text/x-handlebars-template">
   <ul>
     <li><h1>Tags :</h1></li>
@@ -58,10 +65,28 @@
 </script>
 
 <script id="tag-template" type="text/x-handlebars-template">
-  <h1>Selected tag</h1>
-  <h2>{{badge}}</h2>
-  <p>{{id}}</p>
-  <p><a id="back-to-tags" href="#">Back to all tags</a></p>
+  <ul>
+    <li><h1>Selected tag :</h1></li>
+    <li><h2>{{badge}}</h2></li>
+    <li><p><a id="back-to-tags" href="#"> > </a></p></li>
+  </ul>
+  <br>
+</script>
+
+<script id="tag-articles-template" type="text/x-handlebars-template">
+  {{#each articles}}
+    <h1>{{title}}</h1>
+    <ul>
+      {{#each tags}}
+        <li>
+          <p class="tags" data-tag-id="{{id}}">{{badge}}</p>
+        </li>
+      {{/each}}
+    </ul>
+    <p>{{body}}</p>
+    <p>By {{author}}</p>
+    <p><a id="back-to-articles" href="#">Back to all articles</a></p>
+  {{/each}}
 </script>
 
 <!-- <section id="content-users"></section> -->
@@ -71,12 +96,21 @@
   <div id="tags" class="row col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-lg-10 col-md-10 col-sm-10">
     <section id="content-tags"></section>
   </div>
-  <section id="content-articles"></section>
+  
+  <div class="row col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-lg-10 col-md-10 col-sm-10">
+    <section id="content-articles"></section>
+  </div>
+  
+  
   <!-- <button id="create-article">Create article</button> -->
 
   <button id="create-article" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#createArticleModal">
     Create an article
   </button>
+
+</div>
+
+<!-- PAGE  -->
 
 <!-- Modal -->
 <div class="modal fade" id="createArticleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -104,7 +138,24 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-</div>
+
+<div class="modal fade" id="deleteArticleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <p class="modal-title" id="myModalLabel">Delete article</p>
+      </div>
+      <div class="modal-body">
+        <h4>Are you sure you want to delete the article ?</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">No, i will keep it.</button>
+        <button type="button" id="delete-article" class="btn btn-primary" data-dismiss="modal">Delete</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 
 

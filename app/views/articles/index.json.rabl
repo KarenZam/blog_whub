@@ -9,7 +9,7 @@ child @articles, object_root: false do
   end
 
   child :tags, object_root: false do
-    attributes :badge
+    attributes :badge, :id
   end
 
   child :comments, object_root: false do
