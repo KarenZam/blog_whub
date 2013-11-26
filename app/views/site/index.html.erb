@@ -9,15 +9,13 @@
 <!-- ARTICLES SELECTION -->
 
 <script id="articles-template" type="text/x-handlebars-template">
-  <h1>Articles</h1>
   <ul>
     {{#each articles}}
-      <li>
-        <h2>{{title}}</h2>
-        <h3>Tags :</h3>
+      <li class="articles" data-article-id="{{id}}">
+        <h1>{{title}}</h1>
         <ul>
           {{#each tags}}
-            <li><p class="tags" data-tag-id="{{id}}">{{badge}}</p></li>
+            <li><h2 class="tags" data-tag-id="{{id}}">{{badge}}</h2></li>
           {{/each}}
         </ul>
         <p>{{body}}</p>
@@ -42,12 +40,24 @@
   <ul>
     {{#each tags}}
       <li>
-        <p class="tags" data-tag-id="{{id}}">{{badge}}</p>
+        <h2 class="tags" data-tag-id="{{id}}">{{badge}}</h2>
       </li>
     {{/each}}
   </ul>
   <p>{{body}}</p>
   <p>By {{author}}</p>
+  <ul>
+    {{#each comments}}
+      <li>{{body}}</li>
+      <p>{{user.name}}</p>
+    {{/each}}
+  </ul>
+  <% if current_user %>
+    <textarea id="comment-body" rows="3" class="form-control" placeholder="Please enter your comment"></textarea>
+    <button class="btn btn-default btn-sm" id="add-comment" data-article-id="{{id}}"> post your comment! </button>
+  <% else %>
+    <p> please login to submit a comment.</p>
+  <% end %>
   <p><a id="back-to-articles" href="#">Back to all articles</a></p>
 </script>
 
@@ -55,7 +65,7 @@
 <!-- TAGS SELECTION -->
 
 <script id="tags-template" type="text/x-handlebars-template">
-  <ul>
+  <ul id="all-tags">
     <li><h1>Tags :</h1></li>
     {{#each tags}}
       <li><h2 class="tags" data-tag-id="{{id}}">{{badge}}</h2></li>
@@ -65,7 +75,7 @@
 </script>
 
 <script id="tag-template" type="text/x-handlebars-template">
-  <ul>
+  <ul id="all-tags">
     <li><h1>Selected tag :</h1></li>
     <li><h2>{{badge}}</h2></li>
     <li><p><a id="back-to-tags" href="#"> > </a></p></li>
@@ -125,6 +135,7 @@
           <input id="title" type="text" class="form-control" placeholder="Title">
           <br>
           <input id="tag" type="text" class="form-control" placeholder="tag">
+          <p id="create-article-display-tags"><p>
           <br>
           <textarea id="body" rows="5" class="form-control" placeholder="Body"></textarea>
           <br>

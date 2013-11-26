@@ -74,6 +74,18 @@ articles = Article.create([
     author: "Hamid",
     is_published: true,
     body: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+  },
+  {
+    title: "Fifth article",
+    author: "Me & I",
+    is_published: true,
+    body: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+  },
+  {
+    title: "Sixth article",
+    author: "Hamid",
+    is_published: true,
+    body: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
   }
 ])
 
@@ -123,6 +135,16 @@ comments = Comment.create([
     article: articles[3],
     user: users[0]
   },
+  {
+    body: "What a comment",
+    article: articles[4],
+    user: users[2]
+  },
+  {
+    body: "User Admin Sxth fourth.",
+    article: articles[5],
+    user: users[0]
+  }
 ]),
 
 tags = Tag.create([
@@ -132,11 +154,15 @@ tags = Tag.create([
   },
   {
     badge: "recruitment",
-    articles: [articles[0], articles[1], articles[2]]
+    articles: [articles[0], articles[1], articles[2], articles[4]]
   },
   {
     badge: "website",
-    articles: [articles[0], articles[3]]
+    articles: [articles[0], articles[3], articles[5]]
+  },
+  {
+    badge: "whops",
+    articles: [articles[3], articles[4], articles[5]]
   }
 ])
 

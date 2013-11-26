@@ -14,7 +14,9 @@ class ArticlesController < ApplicationController
   end
 
   def create
+    tags_params = params.delete(:tags)
     if article = Article.create(article_params)
+      article.find_or_create_tags(tags_params)
       head :created, location: article_url(article)
     else
       head :unprocessable_entity

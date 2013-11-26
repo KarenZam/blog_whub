@@ -93,7 +93,6 @@ $ ->
   #FROM USERS - DISPLAY A USER 
   $('section').on 'click', 'ul .users', (e) ->
     id = $(@).data('user-id')
-    console.log "HI"
     showUser(id)
 
   #FROM USER - BACK TO USERS
@@ -126,36 +125,54 @@ $ ->
     showTags()
     showArticles()
 
+
   #CREATE AN ARTICLE
   $('#submit-article').on 'click',  ->
-    title = $('input#title').val()
-    console.log title
-    body = $('textarea#body').val()
-    console.log body
-    author = $('input#author').val()
-    console.log author
+    tagArray = new Array()
+    title = $('#title').val()
+    body = $('#body').val()
+    author = $('#author').val()
+    tagArray = $('#create-article-display-tags').text().split(', ')
+    formattedBadges = $.map tagArray, (item, index) ->
+      {badge: item}
+    console.table formattedBadges
     $.ajax "/api/articles",
       type: 'POST',
       contentType: 'application/json',
-      data: JSON.stringify({article: {title: title, body: body, author: author, is_published: false, tags_attributes: [{ badge: "badge test"}]}}),
+      data: JSON.stringify({article: {title: title, body: body, author: author, is_published: false}, tags: formattedBadges}),
       success: (x) ->
         console.log x
     showArticles()
 
-  #DELETE AN ARTICLE
 
+  $("#tag").on 'keyup', (e) ->
+    if e.which == 13 || e.which == 188 # "enter" ","
+      tagArray = new Array()
+      tag = $('#tag').val().toLowerCase()
+      if $('#create-article-display-tags').text() != ""
+        tagArray = $('#create-article-display-tags').text().split(', ')
+        if jQuery.inArray( tag, tagArray ) != -1
+          $("#tag").val('')          
+          return
+      $("#tag").val('')
+      console.log "tag : " + tag
+      if e.which == 188
+        tag = tag.slice(0,-1)
+      if $("#create-article-display-tags").text() != ""
+        $("#create-article-display-tags").append(", ")
+      $("#create-article-display-tags").append(tag)
+      
+
+  #DELETE AN ARTICLE
   $('#content-articles').on 'click', '.article-form-opener', (e) ->
     id = $(@).parent().data('article-id')
     $('#deleteArticleModal').modal('show')
     console.log "Setting ID to #{id}"
-    $('#delete-article').attr('data-delete-article-id', id)
+    $('#delete-article').data('delete-article-id', id)
 
 
   $('#delete-article').on 'click',  ->
     id = $(@).data('delete-article-id')
-    console.log "hello"
-    console.log "#{id}"
-    console.log id
     $.ajax "/api/articles/#{id}",
       type: 'DELETE',
       success: (data) ->
@@ -168,16 +185,40 @@ $ ->
     $.ajax "/api/articles/#{id}",
       type: 'PATCH',
       contentType: 'application/json',
-      data: JSON.stringify({article: {title: title, body: "body test", author: "author test", is_published: false, tags_attributes: [{ badge: "badge test"}]}}),
+      data: JSON.stringify({article: {title: title, body: "body test", author: "author test", is_published: false, tags_attributes: [{ badge: "badge test"}, {badge: "test 2"}]}}),
       success: (x) ->
         console.log x
+
+  #CREATE A COMMENT
+  $('#content-articles').on 'click', '#add-comment', (e) ->
+    if $('#comment-body').val() == ""
+      console.log "can not post comment body empty"
+      return
+    body = $('#comment-body').val()
+    article_id = $(@).data('article-id')
+
+    $.ajax "/api/articles/#{article_id}/comments",
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({body: body})
+      success: (x) ->
+        console.log x
+    showArticle(article_id)
 
         #------------------------------------------------------------------------#
 
   #ON CLICK LIGHT
   $('#light').on 'click',  ->
-    console.log "light"
-    $(@).toggleClass light dark, (currentclass), true
+    # options = {};
+    # options = { percent: 200 };
+    $("body").toggleClass "light dark"
+    console.log $('#light a').text()
+    if $('#light a').text() == "Light" 
+      $('#light a').text('Dark')  
+    else $('#light a').text('Light')
+    
+    # console.log $( "#tags" )
+    # $( "#all-tags" ).show 'scale', options, 500
       
 
       

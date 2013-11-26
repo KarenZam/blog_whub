@@ -20,10 +20,10 @@ class SessionController < ApplicationController
         log_user_in(user)
       else
         flash.now[:error] = "Unable to sign you in. Please try again."
+        render :new
       end
     end
       
-    render :new
   end
   
   def destroy

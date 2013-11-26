@@ -5,4 +5,12 @@ class Article < ActiveRecord::Base
   validates :body, presence: true
 
   accepts_nested_attributes_for :tags
+
+
+  def find_or_create_tags(tags_params)
+    tags_params.each do |tag_params|
+      tag = Tag.find_or_create_by(badge: tag_params[:badge])
+      self.tags << tag
+    end
+  end
 end

@@ -1,6 +1,8 @@
-class CommentsController < ActionController::Base
+class CommentsController < ApplicationController
   before_action :get_comment, only: [ :update, :destroy ]
   before_action :get_article
+  helper_method :current_user
+  before_action :is_authenticated?, only: [ :create ]
 
   respond_to :json
   
@@ -9,8 +11,11 @@ class CommentsController < ActionController::Base
   end
 
   def create
-    if comment = Comment.create(comment_params)
-      head :created, location: article_comment_url(@article, comment)
+    comment = Comment.new comment_params
+    comment.article = @article
+    comment.user = current_user
+    if comment.save
+      head :created
     else
       head :unprocessable_entity
     end

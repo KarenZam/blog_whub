@@ -14,8 +14,9 @@ child @articles, object_root: false do
 
   child :comments, object_root: false do
     attributes :body
-    child :user do
+    child :user, object_root: false do
       attributes :name
+      attributes :id
     end
   end
 
