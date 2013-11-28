@@ -13,6 +13,9 @@
 //= require ./vendor/layouts/bottom
 //= require ./vendor/layouts/bottomRight
 //= require ./vendor/jquery.infinitescroll
+//= require ./vendor/d3/d3
+//= require ./vendor/d3/d3.layout.cloud
+//= require d3wordcloud
 //= require blogChangeCss
 //= require index
 

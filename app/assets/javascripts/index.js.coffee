@@ -7,6 +7,7 @@ $ ->
   trigger = 0
   currentPage = 0 
   readyState = true
+  number_articles_display = 0
 
   setValues = () ->
     height = $('#main-content-display').height()
@@ -73,6 +74,8 @@ $ ->
   # http://localhost:3000/api/articles?page=2
   #DISPLAY ALL ARTICLES PAGE BY PAGE
   showArticlesFirstPage = () ->
+    number_articles_display = 0
+
     console.log "show articles first page"
     $.ajax '/api/articles?page=' + currentPage,
       type: 'GET',
@@ -83,8 +86,10 @@ $ ->
         output = template(data)
         $('#content-articles').html(output)
         currentPage++
-        console.log "currentPage : " + currentPage
-        console.log "number of articles : " + gon.article_total_size
+        number_articles_display = currentPage * gon.number_articles_by_page
+        console.log "nb articles display so far : " + number_articles_display
+        document.getElementById('show-more-articles').style.visibility='visible'; 
+        document.getElementById('no-more-articles').style.visibility='hidden' 
 
   showArticlesPagebyPage = () ->
     console.log "current page before ajax : " + currentPage
@@ -99,6 +104,12 @@ $ ->
         $('#content-articles').html(output)
         currentPage++
         console.log "currentPage : " + currentPage
+        number_articles_display = currentPage * gon.number_articles_by_page
+        console.log "nb articles display so far : " + number_articles_display
+        if number_articles_display >= gon.number_articles
+          document.getElementById('show-more-articles').style.visibility='hidden'
+          document.getElementById('no-more-articles').style.visibility='visible'
+
 
 
   #DISPLAY AN ARTICLE 

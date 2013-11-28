@@ -1,12 +1,15 @@
 object false
 
-child @tags, object_root: false do
 
+child @tags, object_root: false do
+  
   attributes :id, :badge
 
   node :href do |tag|
     tag_url(tag) 
   end
+
+
 
   child :articles , object_root: false do
     attributes :title

@@ -4,8 +4,6 @@ class ArticlesController < ApplicationController
   respond_to :json
 
   def index
-    gon.article_total_size = 0
-    gon.all_variables
 
     @articles = if params[:user_id] && @user = User.includes(:comments).where(params[:user_id]).take
       Article.includes(:comments, :tags).where('id in (?)', @user.comments.map {|c| c.article_id})
