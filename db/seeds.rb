@@ -1,3 +1,5 @@
+require 'faker'
+
 Article.destroy_all
 User.destroy_all
 Tag.destroy_all
@@ -50,44 +52,17 @@ users = User.create([
   }
 ])
 
-articles = Article.create([
-  {
-    title: "first article",
-    author: "Karen",
-    is_published: false,
-    body: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-  },
-  {
-    title: "Second article",
-    author: "Karen",
-    is_published: true,
-    body: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
-  },
-  {
-    title: "Third article",
-    author: "Hamid",
-    is_published: false,
-    body: "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain"
-  },
-  {
-    title: "Fourth article",
-    author: "Hamid",
-    is_published: true,
-    body: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-  },
-  {
-    title: "Fifth article",
-    author: "Me & I",
-    is_published: true,
-    body: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-  },
-  {
-    title: "Sixth article",
-    author: "Hamid",
-    is_published: true,
-    body: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-  }
-])
+articles = []
+num = [2,3,4,5]
+
+(1..30).to_a.each do
+  articles << Article.create({
+    title: Faker::Lorem.words(num.sample).join(" "),
+    body: Faker::Lorem.paragraphs(num.sample).join("\n\n"),
+    author: Faker::Name.name,
+    is_published: (rand(55) % 2 == 0)
+  })  
+end
 
 comments = Comment.create([
   {
@@ -144,13 +119,43 @@ comments = Comment.create([
     body: "User Admin Sxth fourth.",
     article: articles[5],
     user: users[0]
+  },
+  {
+    body: "User Admin Sxth fourth.",
+    article: articles[6],
+    user: users[0]
+  },
+  {
+    body: "User Admin Sxth fourth.",
+    article: articles[7],
+    user: users[0]
+  },
+  {
+    body: "User Admin Sxth fourth.",
+    article: articles[8],
+    user: users[0]
+  },
+  {
+    body: "User Admin Sxth fourth.",
+    article: articles[9],
+    user: users[0]
+  },
+  {
+    body: "User Admin Sxth fourth.",
+    article: articles[10],
+    user: users[0]
+  },
+  {
+    body: "User Admin Sxth fourth.",
+    article: articles[11],
+    user: users[1]
   }
-]),
+])
 
 tags = Tag.create([
   {
     badge: "startup",
-    articles: [articles[0], articles[1], articles[2], articles[3]]
+    articles: [articles[0], articles[1], articles[2], articles[3], articles[9], articles[10]]
   },
   {
     badge: "recruitment",
@@ -158,11 +163,11 @@ tags = Tag.create([
   },
   {
     badge: "website",
-    articles: [articles[0], articles[3], articles[5]]
+    articles: [articles[0], articles[3], articles[5], articles[6], articles[8], articles[7]]
   },
   {
     badge: "whops",
-    articles: [articles[3], articles[4], articles[5]]
+    articles: [articles[3], articles[4], articles[5], articles[11], articles[12]]
   }
 ])
 

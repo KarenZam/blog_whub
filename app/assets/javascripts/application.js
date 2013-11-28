@@ -12,6 +12,7 @@
 //= require ./vendor/layouts/topRight
 //= require ./vendor/layouts/bottom
 //= require ./vendor/layouts/bottomRight
+//= require ./vendor/jquery.infinitescroll
 //= require blogChangeCss
 //= require index
 

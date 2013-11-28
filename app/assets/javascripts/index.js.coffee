@@ -1,6 +1,38 @@
 $ ->
 
       #------------------------------------------------------------------------#
+
+  height = 0
+  pageHeight = 0 
+  trigger = 0
+  currentPage = 0 
+  readyState = true
+
+  setValues = () ->
+    height = $('#main-content-display').height()
+    pageHeight = height * 4 / 5
+    trigger = pageHeight
+
+
+  addMore = () ->
+    console.log "addMore"
+    if readyState && $(document).scrollTop() > trigger
+      readyState = false
+      $.ajax "/api/articles?page=#{currentPage++}",
+        success: (data) ->
+          # Append data to container here and update height, etc.
+          readyState = true
+        error: (xhr, status, err) ->
+          currentPage--
+          readyState = true
+    setValues()
+  
+  # $(document).scroll 
+  #   addMore()
+  #   console.log "document scroll"
+
+      #------------------------------------------------------------------------#
+
   #FUNCTIONS
   #DISPLAY ALL USERS
 
@@ -38,6 +70,37 @@ $ ->
         output = template(data)
         $('#content-articles').html(output)
 
+  # http://localhost:3000/api/articles?page=2
+  #DISPLAY ALL ARTICLES PAGE BY PAGE
+  showArticlesFirstPage = () ->
+    console.log "show articles first page"
+    $.ajax '/api/articles?page=' + currentPage,
+      type: 'GET',
+      dataType: 'json',
+      success: (data) ->
+        source = $('#articles-template').html()
+        template = Handlebars.compile(source)
+        output = template(data)
+        $('#content-articles').html(output)
+        currentPage++
+        console.log "currentPage : " + currentPage
+        console.log "number of articles : " + gon.article_total_size
+
+  showArticlesPagebyPage = () ->
+    console.log "current page before ajax : " + currentPage
+    s = currentPage.toString()
+    $.ajax '/api/articles?page=' + currentPage,
+      type: 'GET',
+      dataType: 'json',
+      success: (data) ->
+        source = $('#articles-template').html()
+        template = Handlebars.compile(source)
+        output = template(data)
+        $('#content-articles').html(output)
+        currentPage++
+        console.log "currentPage : " + currentPage
+
+
   #DISPLAY AN ARTICLE 
   showArticle = (id) ->
     console.log(id)
@@ -74,7 +137,6 @@ $ ->
 
   #DISPLAY A TAG
   showTag = (id) ->
-    console.log(id)
     $.ajax "/api/tags/#{id}",
       type: 'GET',
       dataType: 'json',
@@ -85,9 +147,24 @@ $ ->
         $('#content-tags').html(output)
 
         #------------------------------------------------------------------------#
+              #DISPLAY DATE
+
+  formatDate = (postDate) ->
+    year = postDate.substring(0,4)
+    month = postDate.substring(5,7)
+    day = postDate.substring(8,10)
+
+  diaplayData = () ->
+    postDate = $(@).data('date')
+    # year = postDate.substring(0,4)
+    # month = postDate.substring(5,7)
+    # day = postDate.substring(8,10)
+
+        #------------------------------------------------------------------------#
   
   showUsers()
-  showArticles()
+  # showArticles()
+  showArticlesFirstPage()
   showTags()
 
   #FROM USERS - DISPLAY A USER 
@@ -102,19 +179,22 @@ $ ->
 
   #FROM ARTICLES - DISPLAY AN ARTICLE 
   $('section').on 'click', '.articles', (e) ->
-    console.log "clicked on #{$(@).data('article-id')}"
-    console.log "display an article"
     id = $(@).data('article-id')
     showArticle(id)
+
+  #SHOW MORE ARTICLES
+  $('section').on 'click', '#show-more-articles', (e) ->
+    console.log "click see more articles"
+    showArticlesPagebyPage()
     
 
   #FROM ARTICLE - BACK TO ARTICLES
   $('section').on 'click', '#back-to-articles', (e) ->
     showArticles()
+    showTags()
 
   #FROM TAGS - DISPLAY A TAG / ARTICLES 
   $('section').on 'click', 'ul .tags', (e) ->
-    console.log "display a tag"
     id = $(@).data('tag-id')
     console.log id
     showTag(id)
@@ -152,15 +232,23 @@ $ ->
       if $('#create-article-display-tags').text() != ""
         tagArray = $('#create-article-display-tags').text().split(', ')
         if jQuery.inArray( tag, tagArray ) != -1
-          $("#tag").val('')          
+          $("#tag").val('')
           return
       $("#tag").val('')
-      console.log "tag : " + tag
       if e.which == 188
         tag = tag.slice(0,-1)
       if $("#create-article-display-tags").text() != ""
         $("#create-article-display-tags").append(", ")
+      else
+        $("#create-article-delete-input-tags").show( "slow" )
       $("#create-article-display-tags").append(tag)
+
+  # delete the tag in the create an article form
+  $("#create-article-delete-input-tags").on 'click', (e) ->
+    console.log "delete tags"
+    $("#tag").val('')
+    $("#create-article-display-tags").text('')
+
       
 
   #DELETE AN ARTICLE
@@ -205,24 +293,21 @@ $ ->
         console.log x
     showArticle(article_id)
 
-        #------------------------------------------------------------------------#
+
+        #-------------------------------   LIGHT   ---------------------------------#
 
   #ON CLICK LIGHT
   $('#light').on 'click',  ->
-    # options = {};
-    # options = { percent: 200 };
-    $("body").toggleClass "light dark"
-    console.log $('#light a').text()
+    
+    $("body").toggleClass "dark light"
+    
     if $('#light a').text() == "Light" 
       $('#light a').text('Dark')  
     else $('#light a').text('Light')
     
-    # console.log $( "#tags" )
-    # $( "#all-tags" ).show 'scale', options, 500
+    
       
 
-      
         
-
 
 

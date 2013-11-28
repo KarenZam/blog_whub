@@ -1,4 +1,5 @@
 
+
 <script id="user-template" type="text/x-handlebars-template">
   <p>{{name}}</p>
   <p>{{email}}</p>
@@ -9,31 +10,62 @@
 <!-- ARTICLES SELECTION -->
 
 <script id="articles-template" type="text/x-handlebars-template">
-  <ul>
-    {{#each articles}}
-      <li class="articles" data-article-id="{{id}}">
-        <h1>{{title}}</h1>
-        <ul>
-          {{#each tags}}
-            <li><h2 class="tags" data-tag-id="{{id}}">{{badge}}</h2></li>
-          {{/each}}
-        </ul>
-        <p>{{body}}</p>
-        <p>By {{author}}</p>
-        <p>{{created_at}}</p>
-        <p>Comments: </p>
-        <ul>
+  <div class="row col-lg-12 col-md-12 col-sm-12"
+    <ul>
+      {{#each articles}}
+        <li>ID : {{id}}</li>
+        <li class="articles" data-article-id="{{id}}">
+          <div class="row"> 
+            <div class="col-lg-10 col-md-10 col-sm-10">
+              <h1>{{title}}</h1>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2">
+              <button class="btn btn-default btn-sm articles" data-article-id="{{id}}"> 
+                <p> + </p>
+              </button>
+            </div>
+          </div>
+            
+          <ul>
+            {{#each tags}}
+              <li><h2 class="tags" data-tag-id="{{id}}">{{badge}}</h2></li>
+            {{/each}}
+          </ul>
+          <p>{{body}}</p>
+          <p>By {{author}}</p>
+          <p class="created_at_date" data-date="{{created_at}}">{{created_at}}</p>
+          
           {{#each comments}}
-          <li>{{body}}</li>
-          <p>{{user.name}}</p>
+            <p>Comments: </p>
+            <ul>
+              <li>{{body}}</li>
+              <p>{{user.name}}</p>
+            </ul>  
           {{/each}}
-        </ul>
-        <button id="form-delete-article-{{id}}" class="btn btn-danger btn-sm article-form-opener"> - </button>
-      </li>
-      <button class="btn btn-default btn-sm articles" data-article-id="{{id}}"> + </button>
-    {{/each}}
-  </ul>
-</script>
+          
+          <% if current_user && current_user.is_admin %>
+            <button id="form-delete-article-{{id}}" class="btn btn-danger btn-sm article-form-opener"> - </button>
+          <% end %>
+        </li>
+
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+            <a href="https://twitter.com/share" class="twitter-share-button" data-via="chleozam" data-count="none">tweet</a>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+            <div class="fb-like" data-href="https://mywebsite.com" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
+          </div>
+        </div>
+      {{/each}}
+    </ul>
+    <button class="btn btn-default btn-lg" id="show-more-articles"> See more articles! </button>
+
+  </div>
+
+  
+
+  <script id="twitter-wjs" src="http://platform.twitter.com/widgets.js">
+  </script>
 
 <script id="article-template" type="text/x-handlebars-template">
   <h1>{{title}}</h1>
@@ -54,7 +86,8 @@
   </ul>
   <% if current_user %>
     <textarea id="comment-body" rows="3" class="form-control" placeholder="Please enter your comment"></textarea>
-    <button class="btn btn-default btn-sm" id="add-comment" data-article-id="{{id}}"> post your comment! </button>
+    <br>
+    <button class="btn btn-default btn-sm pull-right" id="add-comment" data-article-id="{{id}}"> post your comment! </button>
   <% else %>
     <p> please login to submit a comment.</p>
   <% end %>
@@ -85,42 +118,51 @@
 
 <script id="tag-articles-template" type="text/x-handlebars-template">
   {{#each articles}}
-    <h1>{{title}}</h1>
-    <ul>
-      {{#each tags}}
-        <li>
-          <p class="tags" data-tag-id="{{id}}">{{badge}}</p>
-        </li>
-      {{/each}}
-    </ul>
-    <p>{{body}}</p>
-    <p>By {{author}}</p>
-    <p><a id="back-to-articles" href="#">Back to all articles</a></p>
+    <div class="row col-lg-12 col-md-12 col-sm-12">
+      <h1>{{title}}</h1>
+      <ul>
+        {{#each tags}}
+          <li>
+            <p class="tags" data-tag-id="{{id}}">{{badge}}</p>
+          </li>
+        {{/each}}
+      </ul>
+      <p>{{body}}</p>
+      <p>By {{author}}</p>
+      <p><a id="back-to-articles" href="#">Back to all articles</a></p>
+    </div>
   {{/each}}
 </script>
 
 <!-- <section id="content-users"></section> -->
 
 <!-- PAGE  -->
-<div id="blog-container">
-  <div id="tags" class="row col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-lg-10 col-md-10 col-sm-10">
-    <section id="content-tags"></section>
-  </div>
-  
-  <div class="row col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-lg-10 col-md-10 col-sm-10">
-    <section id="content-articles"></section>
-  </div>
-  
-  
-  <!-- <button id="create-article">Create article</button> -->
+<div id="main-content-display">
 
-  <button id="create-article" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#createArticleModal">
-    Create an article
-  </button>
+  <% if current_user && current_user.is_admin %>
+    <h1>ADMIN MODE</h1>
+  <% end %>
+
+  <div id="blog-container">
+    <div id="tags" class="row col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-lg-10 col-md-10 col-sm-10">
+      <section id="content-tags"></section>
+    </div>
+    
+    <div class="row col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-lg-10 col-md-10 col-sm-10">
+      <section id="content-articles"></section>
+    </div>
+    
+    
+    <!-- <button id="create-article">Create article</button> -->
+    <% if current_user && current_user.is_admin %>
+      <button id="create-article" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#createArticleModal">
+        Create an article
+      </button>
+    <% end %>
 
 </div>
 
-<!-- PAGE  -->
+<!-- PAGE END  -->
 
 <!-- Modal -->
 <div class="modal fade" id="createArticleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -135,7 +177,14 @@
           <input id="title" type="text" class="form-control" placeholder="Title">
           <br>
           <input id="tag" type="text" class="form-control" placeholder="tag">
-          <p id="create-article-display-tags"><p>
+          <div class="row">
+            <div class="col-lg-10 col-md-10 col-sm-10">
+              <p id="create-article-display-tags"><p>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2">
+              <span id="create-article-delete-input-tags" class="pull-right btn btn-danger btn-sm"> - </span>
+            </div>
+          </div>
           <br>
           <textarea id="body" rows="5" class="form-control" placeholder="Body"></textarea>
           <br>
@@ -168,5 +217,11 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-
-
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>

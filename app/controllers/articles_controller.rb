@@ -4,14 +4,25 @@ class ArticlesController < ApplicationController
   respond_to :json
 
   def index
+    gon.article_total_size = 0
+    gon.all_variables
+
     @articles = if params[:user_id] && @user = User.includes(:comments).where(params[:user_id]).take
       Article.includes(:comments, :tags).where('id in (?)', @user.comments.map {|c| c.article_id})
     elsif params[:id]
       Article.includes( :comments, :tags).where('id in (?)', params[:id].split(","))
     else
-      Article.includes( :comments, :tags).all
+      if params[:page]
+        pagesize = 10
+        offset = params[:page].to_i * pagesize
+        Article.order(created_at: :desc).offset(offset).take(pagesize)
+      else  
+        Article.includes( :comments, :tags).order(created_at: :desc).all
+      end
     end
   end
+  
+
 
   def create
     tags_params = params.delete(:tags)
@@ -32,8 +43,12 @@ class ArticlesController < ApplicationController
   end
 
   def destroy
-    article = Article.where('id = ?', params[:id]).take
+    article = Article.includes(:tags).where('id = ?', params[:id]).take
     if article 
+      article.tags.each do |t|
+        t.destroy if t.articles.length == 1
+      end
+
       if article.destroy
         head :no_content
       else

@@ -5,10 +5,10 @@
   transition: all 2s ease-out;
 }
 
+
 .light {
   background-color: rgb(255,255,255);
   color: #252E35;
-
 } 
 .dark {
   background-color: #252E35;
@@ -32,20 +32,31 @@
   background-color: rgba(222, 57, 116, 0.7);
 }
 
-  h1 {
-    font-size: 220%;
-  }
-  h2 {
-    font-size: 140%;
-  }
-  h3 {
-   font-size: 120%; 
-  }
-  ul li {
-    margin-right: 20px;
-    display: inline-block;
-    list-style-type: none;
-  }
+h1 {
+  font-size: 220%;
+  -webkit-transition: all 3s ease-out;
+  -moz-transition: all 3s ease-out;
+  -o-transition-property: all 3s ease-out;
+  transition: all 3s ease-out;
+}
+h2 {
+  font-size: 140%;
+}
+h3 {
+ font-size: 120%; 
+}
+ul li {
+  margin-right: 20px;
+  display: inline-block;
+  list-style-type: none;
+}
 
+#create-article-delete-input-tags {
+  display: none;
+}
 
-
+.icon_twitter {
+  background-image: url('twitter_circle_black.png');
+  width: 100px;
+  height: 100px;
+}
