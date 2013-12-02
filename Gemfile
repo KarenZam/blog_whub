@@ -28,6 +28,7 @@ gem 'oj'
 gem "slim"
 gem 'faker'
 gem "gon"
+# gem 'pg'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'

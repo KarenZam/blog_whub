@@ -32,6 +32,20 @@ $ ->
   #   addMore()
   #   console.log "document scroll"
 
+  # tags = ["Hello", "world", "normally", "you", "want", "more", "words",
+  #       "than", "this"];
+  # fontSize = d3.scale.log().range([10, 100])
+  #   d3.layout.cloud().size([300, 300])
+  #     .words(tags.map(function(d) {
+  #       return {text: d, size: 10 + Math.random() * 90};
+  #     }))
+  #     .padding(5)
+  #     .rotate(function() { return ~~(Math.random() * 2) * 90; })
+  #     .font("Impact")
+  #     .fontSize(function(d) { return d.size; })
+  #     .on("end", draw)
+  #     .start();
+
       #------------------------------------------------------------------------#
 
   #FUNCTIONS
@@ -75,6 +89,8 @@ $ ->
   #DISPLAY ALL ARTICLES PAGE BY PAGE
   showArticlesFirstPage = () ->
     number_articles_display = 0
+    test = #{@articles.all.size}
+    console.log "test : " + test
 
     console.log "show articles first page"
     $.ajax '/api/articles?page=' + currentPage,
@@ -107,8 +123,14 @@ $ ->
         number_articles_display = currentPage * gon.number_articles_by_page
         console.log "nb articles display so far : " + number_articles_display
         if number_articles_display >= gon.number_articles
+          console.log "nb articles display : " + number_articles_display
+          console.log "total nb articles : " + gon.number_articles
           document.getElementById('show-more-articles').style.visibility='hidden'
           document.getElementById('no-more-articles').style.visibility='visible'
+        else
+          document.getElementById('show-more-articles').style.visibility='visible'; 
+          document.getElementById('no-more-articles').style.visibility='hidden' 
+
 
 
 

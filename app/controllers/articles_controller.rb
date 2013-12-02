@@ -18,6 +18,7 @@ class ArticlesController < ApplicationController
         Article.includes( :comments, :tags).order(created_at: :desc).all
       end
     end
+    @article_count = Article.count
   end
   
 

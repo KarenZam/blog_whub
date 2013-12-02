@@ -1,5 +1,6 @@
 object false
 
+
 child @articles, object_root: false do
 
   attributes :id, :title, :author, :is_published, :body, :created_at
@@ -36,4 +37,10 @@ child @articles, object_root: false do
 
   end
 
+end
+
+node :meta do
+  {
+    count: @article_count
+  }
 end

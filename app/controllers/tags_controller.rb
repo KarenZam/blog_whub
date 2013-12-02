@@ -4,6 +4,7 @@ class TagsController < ApplicationController
 
   def index
     @tags = params[:id] ? Tag.includes( :articles).where('id in (?)', params[:id].split(",")) : Tag.includes( :articles).all
+    
   end
 
   def create

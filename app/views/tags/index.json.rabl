@@ -1,7 +1,8 @@
 object false
 
-
 child @tags, object_root: false do
+
+  @tags.count
   
   attributes :id, :badge
 
@@ -27,3 +28,4 @@ child @tags, object_root: false do
   end
 
 end
+
