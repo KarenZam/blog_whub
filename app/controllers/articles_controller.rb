@@ -5,7 +5,7 @@ class ArticlesController < ApplicationController
 
   def index
 
-    @articles = if params[:user_id] && @user = User.includes(:comments).where(params[:user_id]).take
+    @articles = if params[:user_id] && @user = User.includes(:comments, :tags).where(params[:user_id]).take
       Article.includes(:comments, :tags).where('id in (?)', @user.comments.map {|c| c.article_id})
     elsif params[:id]
       Article.includes( :comments, :tags).where('id in (?)', params[:id].split(","))
@@ -13,7 +13,7 @@ class ArticlesController < ApplicationController
       if params[:page]
         pagesize = 10
         offset = params[:page].to_i * pagesize
-        Article.order(created_at: :desc).offset(offset).take(pagesize)
+        Article.includes( :comments, :tags).order(created_at: :desc).offset(offset).take(pagesize)
       else  
         Article.includes( :comments, :tags).order(created_at: :desc).all
       end

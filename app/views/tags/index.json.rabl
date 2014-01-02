@@ -11,7 +11,6 @@ child @tags, object_root: false do
   end
 
 
-
   child :articles , object_root: false do
     attributes :title
     attributes :body

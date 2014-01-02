@@ -13,7 +13,6 @@
   <div class="row col-lg-12 col-md-12 col-sm-12"
     <ul>
       {{#each articles}}
-        <li>ID : {{id}}</li>
         <li class="articles" data-article-id="{{id}}">
           <div class="row"> 
             <div class="col-lg-10 col-md-10 col-sm-10">
@@ -25,12 +24,6 @@
               </button>
             </div>
           </div>
-            
-          <ul>
-            {{#each tags}}
-              <li><h2 class="tags" data-tag-id="{{id}}">{{badge}}</h2></li>
-            {{/each}}
-          </ul>
           <p>{{body}}</p>
           <p>By {{author}}</p>
           <p class="created_at_date" data-date="{{created_at}}">{{created_at}}</p>
@@ -70,13 +63,6 @@
 
 <script id="article-template" type="text/x-handlebars-template">
   <h1>{{title}}</h1>
-  <ul>
-    {{#each tags}}
-      <li>
-        <h2 class="tags" data-tag-id="{{id}}">{{badge}}</h2>
-      </li>
-    {{/each}}
-  </ul>
   <p>{{body}}</p>
   <p>By {{author}}</p>
   <ul>
@@ -92,6 +78,14 @@
   <% else %>
     <p> please login to submit a comment.</p>
   <% end %>
+  <div class="row">
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+      <a href="https://twitter.com/share" class="twitter-share-button" data-via="chleozam" data-count="none">tweet</a>
+    </div>
+    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+      <div class="fb-like" data-href="https://mywebsite.com" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
+    </div>
+  </div>
   <p><a id="back-to-articles" href="#">Back to all articles</a></p>
 </script>
 

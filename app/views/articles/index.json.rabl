@@ -9,16 +9,17 @@ child @articles, object_root: false do
     article_url(article) 
   end
 
-  child :tags, object_root: false do
-    attributes :badge, :id
-  end
-
   child :comments, object_root: false do
     attributes :body
     child :user, object_root: false do
       attributes :name
       attributes :id
     end
+  end
+
+  child :tags, object_root: false do
+    attributes :badge 
+    attributes :id
   end
 
   node :linked do
